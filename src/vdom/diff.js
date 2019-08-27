@@ -1,3 +1,4 @@
+// https://github.com/livoras/blog/issues/13
 import listDiff from 'list-diff2';
 import patch from './patch';
 import util from './util';
