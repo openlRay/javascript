@@ -1,9 +1,12 @@
 // https://github.com/livoras/blog/issues/13
-import listDiff from 'list-diff2';
+import {
+  listDiff
+} from './listDiff';
 import patch from './patch';
 import util from './util';
 
 function diff(oldTree, newTree) {
+  // console.log(oldTree, newTree)
   var index = 0
   var patches = {}
   dfsWalk(oldTree, newTree, index, patches)
@@ -38,15 +41,13 @@ function dfsWalk(oldNode, newNode, index, patches) {
       })
     }
     // Diff children. If the node has a `ignore` property, do not diff children
-    if (!isIgnoreChildren(newNode)) {
-      diffChildren(
-        oldNode.children,
-        newNode.children,
-        index,
-        patches,
-        currentPatch
-      )
-    }
+    diffChildren(
+      oldNode.children,
+      newNode.children,
+      index,
+      patches,
+      currentPatch
+    )
     // Nodes are not the same, replace the old node with new node
   } else {
     currentPatch.push({
@@ -61,7 +62,11 @@ function dfsWalk(oldNode, newNode, index, patches) {
 }
 
 function diffChildren(oldChildren, newChildren, index, patches, currentPatch) {
+  console.log(oldChildren, newChildren, index, patches, currentPatch)
+  console.log('------------------------------------')
   var diffs = listDiff(oldChildren, newChildren, 'key')
+  console.log(diffs)
+  console.log('=================')
   newChildren = diffs.children
 
   if (diffs.moves.length) {
@@ -116,10 +121,6 @@ function diffProps(oldNode, newNode) {
   }
 
   return propsPatches
-}
-
-function isIgnoreChildren(node) {
-  return (node.props && node.props.hasOwnProperty('ignore'))
 }
 
 export {
