@@ -21,13 +21,14 @@
   };
   content.onmousemove = debounce(count);
 
+
   function debounce(fn, time = 1000) {
     let timer = null
     return (...args) => {
-      clearTimeout(timer);
+      clearTimeout(timer)
       timer = setTimeout(() => {
         fn.apply(this, args)
-      }, time);
+      }, time)
     }
   }
 </script>

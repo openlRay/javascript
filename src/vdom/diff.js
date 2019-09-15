@@ -6,10 +6,11 @@ import patch from './patch';
 import util from './util';
 
 function diff(oldTree, newTree) {
-  // console.log(oldTree, newTree)
+  console.log(oldTree, newTree)
   var index = 0
   var patches = {}
   dfsWalk(oldTree, newTree, index, patches)
+  console.log(patches)
   return patches
 }
 
@@ -62,11 +63,7 @@ function dfsWalk(oldNode, newNode, index, patches) {
 }
 
 function diffChildren(oldChildren, newChildren, index, patches, currentPatch) {
-  console.log(oldChildren, newChildren, index, patches, currentPatch)
-  console.log('------------------------------------')
   var diffs = listDiff(oldChildren, newChildren, 'key')
-  console.log(diffs)
-  console.log('=================')
   newChildren = diffs.children
 
   if (diffs.moves.length) {

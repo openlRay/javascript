@@ -18,22 +18,22 @@ export default class Home extends Vue {
     var ul1 = ele('div', {
       id: 'virtual-dom'
     }, [
-        ele('p', {}, ['Virtual DOM']),
-        ele('ul', {
-          id: 'list'
-        }, [
-            ele('li', {
-              class: 'item'
-            }, ['Item 1']),
-            ele('li', {
-              class: 'item'
-            }, ['Item 2']),
-            ele('li', {
-              class: 'item'
-            }, ['Item 3'])
-          ]),
-        ele('div', {}, ['HcreateElementlo World'])
-      ])
+      ele('p', {}, ['Virtual DOM']),
+      ele('ul', {
+        id: 'list'
+      }, [
+        ele('li', {
+          class: 'item'
+        }, ['Item 1']),
+        ele('li', {
+          class: 'item'
+        }, ['Item 2']),
+        ele('li', {
+          class: 'item'
+        }, ['Item 3'])
+      ]),
+      ele('div', {}, ['HcreateElementlo World'])
+    ])
 
     var ul2 = ele('div', { id: 'virtual', class: 'dom' }, [
       ele('p', {}, ['Virtual DOM']),

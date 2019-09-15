@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    * {
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .mask-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .6);
+    }
+
+    .model-icon {
+      width: 100px;
+      transform: translate(-50%, -50%);
+      /* margin-top: -10px; */
+      position: absolute;
+      top: 0px;
+      left: 50%;
+    }
+
+    .model-blank {
+      height: 24px;
+    }
+
+    .model-container {
+      width: 400px;
+      min-height: 200px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 4px 2px #f1f8ff;
+      text-align: center;
+      font-size: 18px;
+      color: #333;
+      padding: 10px 24px;
+      box-sizing: border-box;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .model-container .model-title {
+      font-size: 24px;
+    }
+
+    .model-container .controls {
+      /*position: absolute;*/
+      /*bottom: 19px;*/
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    .model-container a {
+      display: inline-block;
+      width: 49%;
+      text-align: center;
+      cursor: pointer;
+      background: royalblue;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    .model-container .confirm {}
+  </style>
+</head>
+
+<body>
+  <button id="btn">开启模态框</button>
+  <script>
+    var ModelBox = (function () {
+      var ModelBox = function (option) {
+        this.option = option || {};
+        this.init();
+      };
+      ModelBox.prototype = {
+        isShow: false,
+        init: function () {
+          var _this = this;
+          _this.isShow = this.option.isShow;
+          var html =
+            '<div class="model-container">' +
+            (_this.option.iconSrc ? '<img  class="model-icon"/>' : '') +
+            (_this.option.iconSrc ? '<div  class="model-blank"></div>' : '') +
+            '<h1 class="model-title">title</h1>' +
+            '<div class="model-content"></div>' +
+            '<div class="controls">' +
+            '<a class="confirm model-confirm">确定</a>' +
+            '<a class="cancel model-cancel">取消</a>' +
+            '</div>' +
+            '</div>';
+          var ModelBoxCon = document.createElement("div");
+          ModelBoxCon.setAttribute("class", "mask-layer");
+          ModelBoxCon.innerHTML = html;
+          ModelBoxCon.querySelector(".model-title").innerHTML = _this.option.title;
+          ModelBoxCon.querySelector(".model-content").innerHTML = _this.option.content;
+          ModelBoxCon.querySelector(".model-confirm").innerHTML = _this.option.confirm;
+          ModelBoxCon.querySelector(".model-cancel").innerHTML = _this.option.cancel;
+          _this.option.iconSrc && (ModelBoxCon.querySelector(".model-icon").setAttribute("src", _this.option
+            .iconSrc));
+          !_this.option.isShowConfirm && (ModelBoxCon.querySelector(".model-confirm").style.display = 'none');
+          document.getElementsByTagName("body")[0].appendChild(ModelBoxCon);
+          if (!_this.isShow) {
+            ModelBoxCon.style.display = "none";
+          }
+          ModelBoxCon.querySelector(".cancel").οnclick = ModelBoxCon.querySelector(".confirm").οnclick = _this
+            .eventsFn.bind("", this, ModelBoxCon);
+
+
+        },
+        show: function () {
+          document.querySelector(".mask-layer").style.display = "block";
+          this.isShow = true;
+        },
+        hide: function () {
+          document.querySelector(".mask-layer").style.display = "none";
+          this.isShow = false;
+        },
+        eventsFn: function (e, doc, target) {
+          var _thisEvent = target.target;
+          if (_thisEvent.classList.contains("confirm")) {
+            e.option.confirmCallBack();
+          }
+          doc.style.display = "none";
+          e.isShow = false;
+          return false;
+        }
+
+      } || {};
+      return ModelBox;
+    })();
+  </script>
+  <script>
+    var opt = new ModelBox({
+      title: "提示框", //标题
+      content: "这是一个弹出框这是一个弹出框这是一个弹出框这是一个弹出框", //内容
+      confirm: "确认", //确认文字
+      cancel: "关闭", //关闭按钮文字
+      isShow: false, //初始状态
+      isShowConfirm: false, //是否显示确认按钮
+      iconSrc: 'https://www.hecoos.com/Statics/Message/success.png', //头部图标 为空不显示
+      confirmCallBack: (function () { //确认回调
+        alert("操作成功");
+      })
+
+    });
+    document.querySelector("#btn").οnclick = function () {
+      !opt.isShow ? opt.show() : opt.hide();
+    }
+  </script>
+</body>
+
+</html>
