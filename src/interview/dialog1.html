@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    .dialog_box {
+      position: fixed;
+      top: 50vh;
+      left: 50vw;
+      transform: translate(-50%, 50%);
+      width: 460px;
+      display: none;
+      border: 1px solid #000000;
+    }
+
+    .model-container {
+      padding: 20px;
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+
+    .model-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .model-content {
+      margin: 30px auto;
+    }
+
+    .controls {
+      float: right;
+      overflow: hidden;
+    }
+
+    .model-confirm {
+      display: inline-block;
+      margin-right: 20px;
+      background-color: #136BFF;
+      border-radius: 4px;
+      color: #ffffff;
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
+    }
+
+    .model-cancel {
+      display: inline-block;
+      margin-right: 20px;
+      background-color: #DCDCDC;
+      border-radius: 4px;
+      color: #000000;
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="btn">开启模态框</button>
+</body>
+<script>
+  function dialog(option) {
+    this.option = option || {
+      title: '确认',
+      isShow: false,
+      content: '确认关闭'
+    }
+    this.init()
+  }
+  dialog.prototype.init = function () {
+    let html = `<div class="model-container">
+                  <h1 class="model-title">${this.option.title}</h1>
+                  <div class="model-content">${this.option.content}</div>
+                  <div class="controls">
+                    <a class="confirm model-confirm">确定</a>
+                    <a class="cancel model-cancel">取消</a>
+                  </div>
+                </div>`
+    let dialogBox = document.createElement('div')
+    dialogBox.setAttribute('class', 'dialog_box')
+    dialogBox.setAttribute('id', 'dialog_box')
+    dialogBox.innerHTML = html
+    document.getElementsByTagName('body')[0].appendChild(dialogBox)
+  }
+  dialog.prototype.show = function () {
+    document.getElementById('dialog_box').style.display = 'block'
+    this.option.isShow = true
+  }
+  dialog.prototype.hide = function () {
+    document.getElementById('dialog_box').style.display = 'none'
+    this.option.isShow = false
+  }
+
+  let ModelBox = new dialog()
+  document.getElementById('btn').addEventListener('click', function (e) {
+    ModelBox.option.isShow ? ModelBox.hide() : ModelBox.show()
+  })
+</script>
+
+</html>
