@@ -15,12 +15,25 @@
 
     .dialog_box {
       position: fixed;
-      top: 50vh;
-      left: 50vw;
-      transform: translate(-50%, 50%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 460px;
       display: none;
       border: 1px solid #000000;
+      z-index: 11;
+    }
+
+    .mask {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #000000;
+      opacity: .5;
+      z-index: 10;
     }
 
     .model-container {
@@ -80,6 +93,7 @@
     this.init()
   }
   dialog.prototype.init = function () {
+    const self = this
     let html = `<div class="model-container">
                   <h1 class="model-title">${this.option.title}</h1>
                   <div class="model-content">${this.option.content}</div>
@@ -93,13 +107,24 @@
     dialogBox.setAttribute('id', 'dialog_box')
     dialogBox.innerHTML = html
     document.getElementsByTagName('body')[0].appendChild(dialogBox)
+    let mask = document.createElement('div')
+    mask.setAttribute('class', 'mask')
+    mask.setAttribute('id', 'mask')
+    document.getElementsByTagName('body')[0].appendChild(mask)
+    dialogBox.querySelector('.confirm').onclick = dialogBox.querySelector('.cancel').onclick = function (e) {
+      document.getElementById('dialog_box').style.display = 'none'
+      document.getElementById('mask').style.display = 'none'
+      self.option.isShow = false
+    }
   }
   dialog.prototype.show = function () {
     document.getElementById('dialog_box').style.display = 'block'
+    document.getElementById('mask').style.display = 'block'
     this.option.isShow = true
   }
   dialog.prototype.hide = function () {
     document.getElementById('dialog_box').style.display = 'none'
+    document.getElementById('mask').style.display = 'none'
     this.option.isShow = false
   }
 
